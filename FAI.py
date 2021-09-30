@@ -323,7 +323,7 @@ def model_setting(mdl,a,b,c,d):
 
 model=keras.models.Sequential()
 #model_setting(model,60, 180,540,72,3)
-model_setting(model,60,210,72,3)
+model_setting(model,120,540,72,3)
 
 x_train_reshaped=x_train_norm.reshape( -1, 28, 28, 3)  # 데이터갯수에 -1을 쓰면 reshape시 자동계산됩니다.
 x_train_gen1_reshaped = x_train_gen1_norm.reshape(-1,28,28,3)
@@ -401,6 +401,44 @@ model.fit(x_train_gen2_reshaped, y_train_gen2, epochs=1)
 model.fit(x_train_gen3_reshaped, y_train_gen3, epochs=1)
 model.fit(x_train_gen4_reshaped, y_train_gen4, epochs=1)
 model.fit(x_train_gen5_reshaped, y_train_gen5, epochs=1)
+model.fit(x_train_gen1_reshaped, y_train_gen1, epochs=1)
+model.fit(x_train_reshaped, y_train, epochs=1)
+model.fit(x_train_gen2_reshaped, y_train_gen2, epochs=1)
+model.fit(x_train_gen3_reshaped, y_train_gen3, epochs=1)
+model.fit(x_train_gen4_reshaped, y_train_gen4, epochs=1)
+model.fit(x_train_gen5_reshaped, y_train_gen5, epochs=1)
+model.fit(x_train_gen1_reshaped, y_train_gen1, epochs=1)
+model.fit(x_train_reshaped, y_train, epochs=1)
+model.fit(x_train_gen2_reshaped, y_train_gen2, epochs=1)
+model.fit(x_train_gen3_reshaped, y_train_gen3, epochs=1)
+model.fit(x_train_gen4_reshaped, y_train_gen4, epochs=1)
+model.fit(x_train_gen5_reshaped, y_train_gen5, epochs=1)
+model.fit(x_train_gen1_reshaped, y_train_gen1, epochs=1)
+model.fit(x_train_reshaped, y_train, epochs=1)
+model.fit(x_train_gen2_reshaped, y_train_gen2, epochs=1)
+model.fit(x_train_gen3_reshaped, y_train_gen3, epochs=1)
+model.fit(x_train_gen4_reshaped, y_train_gen4, epochs=1)
+model.fit(x_train_gen5_reshaped, y_train_gen5, epochs=1)
+model.fit(x_train_gen1_reshaped, y_train_gen1, epochs=1)
+model.fit(x_train_reshaped, y_train, epochs=1)
+model.fit(x_train_gen2_reshaped, y_train_gen2, epochs=1)
+model.fit(x_train_gen3_reshaped, y_train_gen3, epochs=1)
+model.fit(x_train_gen4_reshaped, y_train_gen4, epochs=1)
+model.fit(x_train_gen5_reshaped, y_train_gen5, epochs=1)
+model.fit(x_train_gen1_reshaped, y_train_gen1, epochs=1)
+model.fit(x_train_reshaped, y_train, epochs=1)
+model.fit(x_train_gen2_reshaped, y_train_gen2, epochs=1)
+model.fit(x_train_gen3_reshaped, y_train_gen3, epochs=1)
+model.fit(x_train_gen4_reshaped, y_train_gen4, epochs=1)
+model.fit(x_train_gen5_reshaped, y_train_gen5, epochs=1)
+model.fit(x_train_gen1_reshaped, y_train_gen1, epochs=1)
+model.fit(x_train_reshaped, y_train, epochs=1)
+model.fit(x_train_gen2_reshaped, y_train_gen2, epochs=1)
+model.fit(x_train_gen3_reshaped, y_train_gen3, epochs=1)
+model.fit(x_train_gen4_reshaped, y_train_gen4, epochs=1)
+model.fit(x_train_gen5_reshaped, y_train_gen5, epochs=1)
+
+
 
 # model.fit(x_train_gen_reshaped, y_train_gen, epochs=3)
 # model.fit(x_train_reshaped, y_train, epochs=2)
@@ -524,7 +562,7 @@ while num == 0:
     except:
         print("\n숫자만 넣어주세요!\n\n")
 
-print(test_image_dir_path, "테스트 실행")
+# print(test_image_dir_path, "테스트 실행")
 
 # if num == 1:
 #     test_image_dir_path=os.getenv("HOME") + "/Working/AI/first_AI/test"
