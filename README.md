@@ -6,4 +6,5 @@ AIFFEL PROJECT LIST!!
 	-rock  
 	-paper   
 	-scissor    
- + The number of images in rock and paper, scissor folder, is not matter
+ + The number of images in rock and paper, scissor folder, is not matter.
+ + Yout folder should be located at dir: {your\_dir}/Working/AI/first\_AI.
