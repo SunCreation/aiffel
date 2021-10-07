@@ -1,6 +1,6 @@
-스티커 붙이기
+Putting a sticker on My picture!
+=
 
-먼저 쓰기 좋은 
 
 ```python
 import cv2

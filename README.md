@@ -12,4 +12,9 @@ AIFFEL PROJECT LIST!!
 	 + Then you can use it. Execute FAI.py.
 
 ----
- 2. [Classifier for datas \[Digits, Wine, Breast\_cancer\]](https://github.com/SunCreation/aiffel/tree/main/Working/AI/Classifier)
+ 2. [```Classifier for datas [Digits, Wine, Breast_cancer]```](https://github.com/SunCreation/aiffel/tree/main/Working/AI/Classifier)
+
+
+ ----
+ 3. [```Putting a sticker on My picture.```](https://github.com/SunCreation/aiffel/tree/main/Working/AI/sticker_img)  You can try my program. It's a beginning level.🤣   
+ but if you want click [here](https://github.com/SunCreation/aiffel/tree/main/Working/AI/sticker_img)!

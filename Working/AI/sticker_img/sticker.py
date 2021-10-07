@@ -287,18 +287,18 @@ def im_rotate(img, degree):
 한번 써보자.
 
 '''
-def im_rotate(img, degree):
-    h, w = img.shape[:-1]
-    # crossLine = int(((w * h + h * w) ** 0.5))
-    centerRotatePT = int(w / 2), int(h / 2)
-    new_h, new_w = h, w 
-    rotatefigure = cv2.getRotationMatrix2D(centerRotatePT, degree, 1) 
-    result = cv2.warpAffine(img, rotatefigure, (new_w, new_h),) 
-    return result
-result = im_rotate(stk_rgb,10*np.arctan(a[1]/a[0])*(180/np.pi))
-plt.imshow(result)
-plt.show()
-print(a)
+# def im_rotate(img, degree):
+#     h, w = img.shape[:-1]
+#     # crossLine = int(((w * h + h * w) ** 0.5))
+#     centerRotatePT = int(w / 2), int(h / 2)
+#     new_h, new_w = h, w 
+#     rotatefigure = cv2.getRotationMatrix2D(centerRotatePT, degree, 1) 
+#     result = cv2.warpAffine(img, rotatefigure, (new_w, new_h),) 
+#     return result
+# result = im_rotate(stk_rgb,10*np.arctan(a[1]/a[0])*(180/np.pi))
+# plt.imshow(result)
+# plt.show()
+# print(a)
 '''
 ???!!
 너무 잘 돌아간다...!!
@@ -308,10 +308,10 @@ print(a)
 print(result)
 print(stk_rgb)
  """
-stk_bgr = \
-    np.where(stk_bgr==255, 0, 255).astype(np.uint8)
-plt.imshow(stk_bgr)
-plt.show
+# stk_bgr = \
+#     np.where(stk_bgr==255, 0, 255).astype(np.uint8)
+# plt.imshow(stk_bgr)
+# plt.show
 
 #%%
 # img_bgr = cv2.imread(image_path + image_list[num-1])    #- OpenCV로 이미지를 읽어서
