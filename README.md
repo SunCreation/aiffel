@@ -1,4 +1,4 @@
-AIFFEL PROJECT LIST!!
+AIFFEL PROJECT LIST!
 =
 
  1. Play _```rock paper scissors```_ with **artificial intelligence**. You should download a wholefolder 'Working' to try it, FAI.py.    
@@ -17,4 +17,4 @@ AIFFEL PROJECT LIST!!
 
  ----
  3. [```Putting a sticker on My picture.```](https://github.com/SunCreation/aiffel/tree/main/Working/AI/sticker_img)  You can try my program. It's a beginning level. but I think it's very interesting!   
- but if you want click [here](https://github.com/SunCreation/aiffel/tree/main/Working/AI/sticker_img)!
+ If you wanna try it, click [here](https://github.com/SunCreation/aiffel/tree/main/Working/AI/sticker_img)!

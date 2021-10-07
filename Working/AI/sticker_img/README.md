@@ -1,6 +1,37 @@
 Putting a sticker on My picture!
 =
+[in Korean](#내-사진에-스티커-붙이기)
+# Contents 
+## 1. How to try it
+## 2. What is sticker.py
+1. Destination and Significance
+2. Code evaluation
 
+
+----
+내 사진에 스티커 붙이기!
+=
+# 목차
+## 1. 파일 이용 방법   
+## 2. sticker.py에 대하여  
+1. [도전 목표 및 의의](#1-도전-목표-및-의의)
+2. [코드 해석](#2-코드-해석)
+
+
+# 1. 파일 이용 방법
+### 1. Working/AI/sticker_img 파일을 전부 다운로드한다.
+### 2. 스티커를 붙일 이미지 파일을 Working/AI/sticker_img/images폴더에 위치시킨다.
+### 3. 스티커로 사용할 이미지 파일을 Working/AI/sticker_img/sticker폴더에 위치시킨다.
+### 4. python3 sticker.py를 실행한다.
+
+----
+# 2. sticker.py에 대하여   
+## 1. 도전 목표 및 의의
+### 사진에 OpenCV2 라이브러리를 이용하여, 이미지에 스티커 붙이기 작업을 해보겠습니다. OpenCV를 처음 써보는 만큼 많이 배워가길 기대해봅니다.   
+
+## 2. 코드 해석
+
+### 먼저 필요한 라이브리러를 호출하겠습니다. 
 
 ```python
 import cv2
@@ -9,10 +40,9 @@ import numpy as np
 print("🌫🛸")
 import os
 import re
-# my_image_path = os.getenv('HOME')+'/Working/AI/sticker_img/images/king.png'
-# img_bgr = cv2.imread(my_image_path)    #- OpenCV로 이미지를 읽어서
-# img_bgr_k = cv2.resize(img_bgr, (640, 360))    # 640x360의 크기로 Resize
-# img_show_k = img_bgr_k.copy()      #- 출력용 이미지 별도 보관
+```
+
+```python
 
 Workingpath = input("\n\n\n\n\n사용자의 home 디렉토리에서 Working파일 사이의 경로를 입력하세요.\
     \n(ex: /aiffel/assignment   ,  Working파일이 Home 디렉토리에 있다면, 그냥 Enter를 누르세요.) :")
