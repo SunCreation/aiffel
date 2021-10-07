@@ -31,7 +31,7 @@ Putting a sticker on My picture!
 
 ## 2. 코드 해석
 
-### 먼저 필요한 라이브리러를 호출하겠습니다. 
+### 먼저 코드를 보시기 전에, 위 순서를 따라 파일을 재미있게 사용해보시길 권해드립니다:) 그러면 필요한 라이브리러를 호출하겠습니다. 
 
 ```python
 import cv2
@@ -42,6 +42,8 @@ import os
 import re
 ```
 
+### 다음으로는 본 파일을 여러곳에서 동일하게 테스트 할 수 있도록 경로설정을 하겠습니다. 이렇게 함으로, 만드는 것에 더 의미도 있고, 재미도 있고, 공유하기도 용이해집니다!
+
 ```python
 
 Workingpath = input("\n\n\n\n\n사용자의 home 디렉토리에서 Working파일 사이의 경로를 입력하세요.\
@@ -51,6 +53,11 @@ sticker_path = os.getenv('HOME')+Workingpath+'/Working/AI/sticker_img/sticker/'
 image_list = os.listdir(image_path)
 sticker_list = os.listdir(sticker_path)
 
+```
+### 다음으로는 사용할 함수들을 정의하겠습니다. 사실 처음부터 이렇게 정의한 것은 없고, 만들다가 어쩔 수 없이 필요한 것만 썼습니다. 아직 함수를 유용하게 쓰기가 익숙하지 않군요.
+
+
+```python
 # 사진 고르기 함수
 def select_img(image_list):
     n=0
@@ -93,7 +100,11 @@ def select_stk(image_list):
         n=1
 
     return b
+```
+### 아래는 스티커를 회전시키는 함수입니다. 인터넷을 찾다가 발견했습니다.
+[here](https://ansan-survivor.tistory.com/641)
 
+```python
 
 # 회전함수
 def im_rotate(img, degree):
@@ -105,9 +116,12 @@ def im_rotate(img, degree):
     result = cv2.warpAffine(img, rotatefigure, (new_w, new_h)) 
     return result
 
+```
+### 회전시키고 싶은 사진의 중앙값을 계산에서 회전시키는 함수에 대입하도록 만들었습니다.
 
+### 이제 여러가지 사진을 쉽게 적용해볼 수 있도록 위에 정의한 함수를 사용하여 프로그램을 구축했습니다. while문을 돌면서 선택한 사진을 보여주고, 마음에 드는 사진일 시에만 다음으로 넘어가도록 만들었습니다.
 
-
+```python
 
 n=0
 while n==0:
