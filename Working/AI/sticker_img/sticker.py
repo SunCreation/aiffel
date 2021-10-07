@@ -110,7 +110,7 @@ print("얼굴이 여기 있군요!")
 plt.show()
 
 
-model_path = os.getenv('HOME') + '/Working/AI/sticker_img/models/shape_predictor_68_face_landmarks.dat'
+model_path = os.getenv('HOME') + Workingpath + '/Working/AI/sticker_img/models/shape_predictor_68_face_landmarks.dat'
 landmark_predictor = dlib.shape_predictor(model_path)
 print("🌫🛸\n🌫🛸\n🌫🛸")
 

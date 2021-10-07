@@ -23,11 +23,13 @@ Putting a sticker on My picture!
 ### 2. 스티커를 붙일 이미지 파일을 Working/AI/sticker_img/images폴더에 위치시킨다.
 ### 3. 스티커로 사용할 이미지 파일을 Working/AI/sticker_img/sticker폴더에 위치시킨다.
 ### 4. python3 sticker.py를 실행한다.
+이렇게 이용해볼 수 있어요!
+![이미지](data/my_program.png)
 
 ----
 # 2. sticker.py에 대하여   
 ## 1. 도전 목표 및 의의
-### 사진에 OpenCV2 라이브러리를 이용하여, 이미지에 스티커 붙이기 작업을 해보겠습니다. OpenCV를 처음 써보는 만큼 많이 배워가길 기대해봅니다.   
+### 사진에 OpenCV2 라이브러리를 이용하여, 이미지에 스티커 붙이기 작업을 해보겠습니다. OpenCV를 처음 써보는 만큼 많이 배워가길 기대해봅니다. 또 dlib라이브러리와 인공지능 모델을 활용한, 얼굴인식 기능을 사용해보도록 하겠습니다. 누군가 만든 기능이지만, 사용하는 것조차 쉽지 않을 것 같은 예감이 드는군요.
 
 ## 2. 코드 해석
 
@@ -41,6 +43,7 @@ print("🌫🛸")
 import os
 import re
 ```
+🌫🛸
 
 ### 다음으로는 본 파일을 여러곳에서 동일하게 테스트 할 수 있도록 경로설정을 하겠습니다. 이렇게 함으로, 만드는 것에 더 의미도 있고, 재미도 있고, 공유하기도 용이해집니다!
 
@@ -54,6 +57,8 @@ image_list = os.listdir(image_path)
 sticker_list = os.listdir(sticker_path)
 
 ```
+사용자의 home 디렉토리에서 Working파일 사이의 경로를 입력하세요.    
+(ex: /aiffel/assignment   ,  Working파일이 Home 디렉토리에 있다면, 그냥 Enter를 누르세요.) : 
 ### 다음으로는 사용할 함수들을 정의하겠습니다. 사실 처음부터 이렇게 정의한 것은 없고, 만들다가 어쩔 수 없이 필요한 것만 썼습니다. 아직 함수를 유용하게 쓰기가 익숙하지 않군요.
 
 
@@ -117,12 +122,11 @@ def im_rotate(img, degree):
     return result
 
 ```
-### 회전시키고 싶은 사진의 중앙값을 계산에서 회전시키는 함수에 대입하도록 만들었습니다.
+### 회전시키고 싶은 사진의 중앙값을 계산에서 회전시키는 함수에 대입하도록 만들었어요. 회전은 나중에 생각할 것이므로 뒤에서 설명해보도록 하겠습니다!
 
 ### 이제 여러가지 사진을 쉽게 적용해볼 수 있도록 위에 정의한 함수를 사용하여 프로그램을 구축했습니다. while문을 돌면서 선택한 사진을 보여주고, 마음에 드는 사진일 시에만 다음으로 넘어가도록 만들었습니다.
 
 ```python
-
 n=0
 while n==0:
     num = select_img(image_list)
@@ -137,7 +141,28 @@ while n==0:
     end=input("이 사진으로 하시겠어요? (y/n)\n\n:")
     if end == 'y' or end == 'yes' or end == 'Y':
         n=1
+```
+어느 사진에 스티커를 붙이시겠습니까?
 
+1번: sis.JPG   
+2번: image02.png   
+3번: injam.JPG   
+4번: me.JPG   
+5번: itsme2.jpg   
+6번: itsme.jpg   
+7번: image01.png    
+8번: cha.png   
+9번: king.png   
+사진에 해당하는 번호를 입력하세요(추천사진 3번ㅋㅋ): 3번!
+
+![이미지](images/injam.JPG)
+
+이 사진으로 하시겠어요? (y/n)
+
+:y 
+
+이제 바로 얼굴 사진에 스티커를 붙여볼 차례입니다! 먼저 얼굴을 찾기위해 dlib 라이브러리를 호출합니다. dlib.get_frontal_face_detector를 사용할 예정이에요.
+```python
 # 얼굴 찾기
 import dlib
 detector_hog = dlib.get_frontal_face_detector()  
@@ -156,7 +181,12 @@ for dlib_rect in dlib_rects:
 
 print("얼굴이 여기 있군요!")
 plt.show()
-
+```
+얼굴 위치 발견! →  rectangles[[(1010, 313) (1189, 492)], [(742, 286) (867, 411)], [(113, 233) (328, 448)], [(286, 369) (411, 494)]]
+얼굴이 여기 있군요!
+![이미지](data/face.png)
+for문을 돌면서 얼굴위치에 다 네모를 쳐주니 위와같은 모습이 되는 군요.
+```python
 
 model_path = os.getenv('HOME') + '/Working/AI/sticker_img/models/shape_predictor_68_face_landmarks.dat'
 landmark_predictor = dlib.shape_predictor(model_path)
@@ -179,7 +209,16 @@ for landmark in list_landmarks:  # landmark == list_points
 img_show_rgb = cv2.cvtColor(img_show, cv2.COLOR_BGR2RGB,)
 plt.imshow(img_show_rgb)
 plt.show()
+```
+🌫🛸   
+🌫🛸   
+🌫🛸   
+얼굴 각 정해진 위치를 찾아볼게요. 각각 68개 씩 272개의 점을 찍었어요!
 
+![이미지](data/pointing.png)
+
+### 위와같이 나옵니다. 얼굴에 점만 찍은 것 뿐이지만, 위치를 알았으니, 이제 우리가 원하는 것은 다 할 수 있는 느낌입니다.
+```python
 # 스티커 고르기
 print("이제 스티커를 골라봅시다.")
 while n==1:
@@ -283,7 +322,7 @@ for dlib_rect, landmark in zip(dlib_rects, list_landmarks):
     img_sticker = np.where(img_sticker==255, 0, 255).astype(np.uint8)
 
     img_sticker = im_rotate(img_sticker,-se)
-    #다시 반전
+    # 다시 반전
     img_sticker = np.where(img_sticker==255, 0, 255).astype(np.uint8)
 
     if refined_y <0 :
@@ -360,3 +399,4 @@ stk_bgr = \
     np.where(stk_bgr==255, 0, 255).astype(np.uint8)
 plt.imshow(stk_bgr)
 plt.show
+```
