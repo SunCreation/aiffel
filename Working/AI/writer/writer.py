@@ -189,7 +189,7 @@ generate_text(model, tokenizer, init_sentence="<start> Kill")
 import glob
 import os
 
-txt_file_path = os.getenv('HOME')+'/Working/AI/writer/data/lyrics/*'
+txt_file_path = '/home/hchang/aiffel/Working/AI/writer/data/lyrics/*'
 
 txt_list = glob.glob(txt_file_path)
 
@@ -204,6 +204,7 @@ for txt_file in txt_list:
 print("데이터 크기:", len(raw_corpus))
 print("Examples:\n", raw_corpus[:3])
 
+#%%
 
 
 corpus = []
@@ -216,6 +217,7 @@ for sentence in raw_corpus:
     # 정제를 하고 담아주세요
     preprocessed_sentence = preprocess_sentence(sentence)
     corpus.append(preprocessed_sentence)
+
 def tokenize(corpus):
     # 7000단어를 기억할 수 있는 tokenizer를 만들겁니다
     # 우리는 이미 문장을 정제했으니 filters가 필요없어요
@@ -239,24 +241,17 @@ def tokenize(corpus):
 tensor, tokenizer = tokenize(corpus)
 tensor.shape
 
+#%%
 
-
-
-from sklearn.model_selection import train_test_split as ttst
-enc_train, enc_val, dec_train, dec_val = ttst(tensor,
-                            tokenizer,
-                            test_size=0.2,
-                            random_state=21)
+# from sklearn.model_selection import train_test_split as ttst
+# enc_train, enc_val, dec_train, dec_val = ttst(tensor,
+#                             tokenizer,
+#                             test_size=0.2,
+#                             random_state=21) ?????
 
 
 # ---------------------------------------------------
 
-file_path = '/home/hchang/aiffel/Working/AI/writer/data/lyrics/*'
-with open(file_path, "r") as f:
-    raw_corpus = f.read().splitlines()
-
-# 앞에서부터 10라인만 화면에 출력해 볼까요?
-print(raw_corpus[:9])
 
 # 입력된 문장을
 #     1. 소문자로 바꾸고, 양쪽 공백을 지웁니다
@@ -266,62 +261,11 @@ print(raw_corpus[:9])
 #     5. 다시 양쪽 공백을 지웁니다
 #     6. 문장 시작에는 <start>, 끝에는 <end>를 추가합니다
 # 이 순서로 처리해주면 문제가 되는 상황을 방지할 수 있겠네요!
-def preprocess_sentence(sentence):
-    sentence = sentence.lower().strip() # 1
-    sentence = re.sub(r"([?.!,¿])", r" \1 ", sentence) # 2
-    sentence = re.sub(r'[" "]+', " ", sentence) # 3
-    sentence = re.sub(r"[^a-zA-Z?.!,¿]+", " ", sentence) # 4
-    sentence = sentence.strip() # 5
-    sentence = '<start> ' + sentence + ' <end>' # 6
-    return sentence
-
 # 이 문장이 어떻게 필터링되는지 확인해 보세요.
-print(preprocess_sentence("This @_is ;;;sample        sentence."))
-# %%
+
 # 여기에 정제된 문장을 모을겁니다
-corpus = []
 
-for sentence in raw_corpus:
-    # 우리가 원하지 않는 문장은 건너뜁니다
-    if len(sentence) == 0: continue
-    if sentence[-1] == ":": continue
-    
-    # 정제를 하고 담아주세요
-    preprocessed_sentence = preprocess_sentence(sentence)
-    corpus.append(preprocessed_sentence)
-        
-# 정제된 결과를 10개만 확인해보죠
-corpus[:10]
-# %%
-# 토큰화 할 때 텐서플로우의 Tokenizer와 pad_sequences를 사용합니다
-# 더 잘 알기 위해 아래 문서들을 참고하면 좋습니다
-# https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
-# https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/pad_sequences
-def tokenize(corpus):
-    # 7000단어를 기억할 수 있는 tokenizer를 만들겁니다
-    # 우리는 이미 문장을 정제했으니 filters가 필요없어요
-    # 7000단어에 포함되지 못한 단어는 '<unk>'로 바꿀거에요
-    tokenizer = tf.keras.preprocessing.text.Tokenizer(
-        num_words=13000, 
-        filters=' ',
-        oov_token="<unk>"
-    )
-    # corpus를 이용해 tokenizer 내부의 단어장을 완성합니다.
-    tokenizer.fit_on_texts(corpus)
-    # 준비한 tokenizer를 이용해 corpus를 Tensor로 변환합니다.
-    tensor = tokenizer.texts_to_sequences(corpus)   
-    # 입력 데이터의 시퀀스 길이를 일정하게 맞춰줍니다.
-    # 만약 시퀀스가 짧다면 문장 뒤에 패딩을 붙여 길이를 맞춰줍니다.
-    # 문장 앞에 패딩을 붙여 길이를 맞추고 싶다면 padding='pre'를 사용합니다.
-    tensor = tf.keras.preprocessing.sequence.pad_sequences(tensor, padding='post')  
-    
-    print(tensor,tokenizer)
-    return tensor, tokenizer
 
-tensor, tokenizer = tokenize(corpus)
-
-print(tensor[:3, :10])
-tensor.shape
 
 for idx in tokenizer.index_word:
     print(idx, ":", tokenizer.index_word[idx])
