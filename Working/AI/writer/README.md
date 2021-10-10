@@ -105,3 +105,22 @@ for idx in tokenizer.index_word:
 9 : a
 10 : to
 ```
+
+```python
+BUFFER_SIZE = len(src_input)
+BATCH_SIZE = 256
+steps_per_epoch = len(src_input) // BATCH_SIZE
+
+ # tokenizer가 구축한 단어사전 내 7000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
+VOCAB_SIZE = tokenizer.num_words + 1   
+
+dataset = tf.data.Dataset.from_tensor_slices((src_input, tgt_input))
+dataset = dataset.shuffle(BUFFER_SIZE)
+# 왜 섞지??
+dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
+dataset
+```
+
+dataset메소드에 관한 정보들   
+[here](https://www.tensorflow.org/api_docs/python/tf/data/Dataset)   
+tf.dataset에는 알아주면 편리한 기능이 아주 많다.

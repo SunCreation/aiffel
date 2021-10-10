@@ -270,8 +270,53 @@ BUFFER_SIZE = len(src_input)
 BATCH_SIZE = 256
 steps_per_epoch = len(src_input) // BATCH_SIZE
 
- # tokenizer가 구축한 단어사전 내 7000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
+ # tokenizer가 구축한 단어사전 내 13000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
 VOCAB_SIZE = tokenizer.num_words + 1   
+
+dataset = tf.data.Dataset.from_tensor_slices((src_input, tgt_input))
+dataset = dataset.shuffle(BUFFER_SIZE)
+dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
+dataset
+#%%
+
+class TextGenerator(tf.keras.Model):
+    def __init__(self, vocab_size, embedding_size, hidden_size):
+        super().__init__()
+        
+        self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_size)
+        self.rnn_1 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
+        self.rnn_2 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
+        self.linear = tf.keras.layers.Dense(vocab_size)
+        
+    def call(self, x):
+        out = self.embedding(x)
+        out = self.rnn_1(out)
+        out = self.rnn_2(out)
+        out = self.linear(out)
+        
+        return out
+    
+embedding_size = 256
+hidden_size = 1024
+model = TextGenerator(tokenizer.num_words + 1, embedding_size , hidden_size)
+# %%
+# 데이터셋에서 데이터 한 배치만 불러오는 방법입니다.
+# 지금은 동작 원리에 너무 빠져들지 마세요~
+for src_sample, tgt_sample in dataset.take(1): break
+
+# 한 배치만 불러온 데이터를 모델에 넣어봅니다
+model(src_sample)
+
+model.summary()
+#%%
+optimizer = tf.keras.optimizers.Adam()
+loss = tf.keras.losses.SparseCategoricalCrossentropy(
+    from_logits=True,
+    reduction='none'
+)
+
+model.compile(loss=loss, optimizer=optimizer)
+model.fit(dataset, epochs=10)
 #%%
 
 # from sklearn.model_selection import train_test_split as ttst
@@ -313,66 +358,66 @@ VOCAB_SIZE = tokenizer.num_words + 1
 
 # print(src_input[0])
 # print(tgt_input[0])
-#%%
-BUFFER_SIZE = len(src_input)
-BATCH_SIZE = 256
-steps_per_epoch = len(src_input) // BATCH_SIZE
+# #%%
+# BUFFER_SIZE = len(src_input)
+# BATCH_SIZE = 256
+# steps_per_epoch = len(src_input) // BATCH_SIZE
 
- # tokenizer가 구축한 단어사전 내 7000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
-VOCAB_SIZE = tokenizer.num_words + 1   
+#  # tokenizer가 구축한 단어사전 내 7000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
+# VOCAB_SIZE = tokenizer.num_words + 1   
 
-# 준비한 데이터 소스로부터 데이터셋을 만듭니다
-# 데이터셋에 대해서는 아래 문서를 참고하세요
-# 자세히 알아둘수록 도움이 많이 되는 중요한 문서입니다
-# https://www.tensorflow.org/api_docs/python/tf/data/Dataset
-dataset = tf.data.Dataset.from_tensor_slices((src_input, tgt_input))
-dataset = dataset.shuffle(BUFFER_SIZE)
-dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
-dataset
-# %%
-class TextGenerator(tf.keras.Model):
-    def __init__(self, vocab_size, embedding_size, hidden_size):
-        super().__init__()
+# # 준비한 데이터 소스로부터 데이터셋을 만듭니다
+# # 데이터셋에 대해서는 아래 문서를 참고하세요
+# # 자세히 알아둘수록 도움이 많이 되는 중요한 문서입니다
+# # https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+# dataset = tf.data.Dataset.from_tensor_slices((src_input, tgt_input))
+# dataset = dataset.shuffle(BUFFER_SIZE)
+# dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
+# dataset
+# # %%
+# class TextGenerator(tf.keras.Model):
+#     def __init__(self, vocab_size, embedding_size, hidden_size):
+#         super().__init__()
         
-        self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_size)
-        self.rnn_1 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
-        self.rnn_2 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
-        self.linear = tf.keras.layers.Dense(vocab_size)
+#         self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_size)
+#         self.rnn_1 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
+#         self.rnn_2 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
+#         self.linear = tf.keras.layers.Dense(vocab_size)
         
-    def call(self, x):
-        out = self.embedding(x)
-        out = self.rnn_1(out)
-        out = self.rnn_2(out)
-        out = self.linear(out)
+#     def call(self, x):
+#         out = self.embedding(x)
+#         out = self.rnn_1(out)
+#         out = self.rnn_2(out)
+#         out = self.linear(out)
         
-        return out
+#         return out
     
-embedding_size = 256
-hidden_size = 1024
-model = TextGenerator(tokenizer.num_words + 1, embedding_size , hidden_size)
-# %%
-# 데이터셋에서 데이터 한 배치만 불러오는 방법입니다.
-# 지금은 동작 원리에 너무 빠져들지 마세요~
-for src_sample, tgt_sample in dataset.take(1): break
+# embedding_size = 256
+# hidden_size = 1024
+# model = TextGenerator(tokenizer.num_words + 1, embedding_size , hidden_size)
+# # %%
+# # 데이터셋에서 데이터 한 배치만 불러오는 방법입니다.
+# # 지금은 동작 원리에 너무 빠져들지 마세요~
+# for src_sample, tgt_sample in dataset.take(1): break
 
-# 한 배치만 불러온 데이터를 모델에 넣어봅니다
-model(src_sample)
-# %%
-model.summary()
-# %%
-# optimizer와 loss등은 차차 배웁니다
-# 혹시 미리 알고 싶다면 아래 문서를 참고하세요
-# https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
-# https://www.tensorflow.org/api_docs/python/tf/keras/losses
-# 양이 상당히 많은 편이니 지금 보는 것은 추천하지 않습니다
-optimizer = tf.keras.optimizers.Adam()
-loss = tf.keras.losses.SparseCategoricalCrossentropy(
-    from_logits=True,
-    reduction='none'
-)
+# # 한 배치만 불러온 데이터를 모델에 넣어봅니다
+# model(src_sample)
+# # %%
+# model.summary()
+# # %%
+# # optimizer와 loss등은 차차 배웁니다
+# # 혹시 미리 알고 싶다면 아래 문서를 참고하세요
+# # https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
+# # https://www.tensorflow.org/api_docs/python/tf/keras/losses
+# # 양이 상당히 많은 편이니 지금 보는 것은 추천하지 않습니다
+# optimizer = tf.keras.optimizers.Adam()
+# loss = tf.keras.losses.SparseCategoricalCrossentropy(
+#     from_logits=True,
+#     reduction='none'
+# )
 
-model.compile(loss=loss, optimizer=optimizer)
-model.fit(dataset, epochs=30)
+# model.compile(loss=loss, optimizer=optimizer)
+# model.fit(dataset, epochs=30)
 
 #%%
 def generate_text(model, tokenizer, init_sentence="<start>", max_len=20):
