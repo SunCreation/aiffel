@@ -1,7 +1,7 @@
 #%%
 import os, re 
 import numpy as np
-import tensorflow as tf
+import tensorflow as tf  
 
 # 파일을 읽기모드로 열고
 # 라인 단위로 끊어서 list 형태로 읽어옵니다.
