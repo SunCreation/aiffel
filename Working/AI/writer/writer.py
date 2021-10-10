@@ -230,9 +230,9 @@ for sentence in raw_corpus:
     corpus.append(preprocessed_sentence)
 
 def tokenize(corpus):
-    # 7000단어를 기억할 수 있는 tokenizer를 만들겁니다
+    # 13000단어를 기억할 수 있는 tokenizer를 만들겁니다
     # 우리는 이미 문장을 정제했으니 filters가 필요없어요
-    # 7000단어에 포함되지 못한 단어는 '<unk>'로 바꿀거에요
+    # 13000단어에 포함되지 못한 단어는 '<unk>'로 바꿀거에요
     tokenizer = tf.keras.preprocessing.text.Tokenizer(
         num_words=13000, 
         filters=' ',
@@ -258,6 +258,20 @@ for idx in tokenizer.index_word:
     if idx >= 10: break
 
 
+src_input = tensor[:, :-1]  
+# tensor에서 <start>를 잘라내서 타겟 문장을 생성합니다.
+tgt_input = tensor[:, 1:]    
+
+print(src_input[0])
+print(tgt_input[0])
+
+#%%
+BUFFER_SIZE = len(src_input)
+BATCH_SIZE = 256
+steps_per_epoch = len(src_input) // BATCH_SIZE
+
+ # tokenizer가 구축한 단어사전 내 7000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
+VOCAB_SIZE = tokenizer.num_words + 1   
 #%%
 
 # from sklearn.model_selection import train_test_split as ttst
@@ -284,20 +298,22 @@ for idx in tokenizer.index_word:
 
 
 
-for idx in tokenizer.index_word:
-    print(idx, ":", tokenizer.index_word[idx])
+# for idx in tokenizer.index_word:
+#     print(idx, ":", tokenizer.index_word[idx])
 
-    if idx >= 10: break
+#     if idx >= 10: break
 
 # tensor에서 마지막 토큰을 잘라내서 소스 문장을 생성합니다
 # 마지막 토큰은 <end>가 아니라 <pad>일 가능성이 높습니다.
-src_input = tensor[:, :-1]  
-# tensor에서 <start>를 잘라내서 타겟 문장을 생성합니다.
-tgt_input = tensor[:, 1:]    
+# #%%
+# src_input = tensor[:, :-1]  
+# # tensor에서 <start>를 잘라내서 타겟 문장을 생성합니다.
 
-print(src_input[0])
-print(tgt_input[0])
+# tgt_input = tensor[:, 1:]    
 
+# print(src_input[0])
+# print(tgt_input[0])
+#%%
 BUFFER_SIZE = len(src_input)
 BATCH_SIZE = 256
 steps_per_epoch = len(src_input) // BATCH_SIZE
