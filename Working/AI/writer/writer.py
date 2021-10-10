@@ -192,7 +192,8 @@
 #%%
 import glob
 import os
-import re 
+import re
+from sklearn.utils import validation 
 import tensorflow as tf
 import numpy as np
 
@@ -207,6 +208,7 @@ for txt_file in txt_list:
     with open(txt_file, "r") as f:
         raw = f.read().splitlines()
         raw_corpus.extend(raw)
+            
 print("노래제목 예시 5개:\n", txt_name_list[:5], "\n노래 개수:", len(txt_list))
 print("데이터 크기:", len(raw_corpus))
 print("Examples:\n", np.array(raw_corpus[:15]))
@@ -220,17 +222,19 @@ def preprocess_sentence(sentence):
     sentence = re.sub(r"[^a-zA-Z?.!,¿]+", " ", sentence) # 4
     sentence = sentence.strip() # 5
     sentence = '<start> ' + sentence + ' <end>' # 6
+    
     return sentence
-
+#%%
 corpus = []
 
 for sentence in raw_corpus:
     # 우리가 원하지 않는 문장은 건너뜁니다
     if len(sentence) == 0: continue
-    # if sentence[-1] == ":": continue
+    if sentence[-1] == ":": continue
     
     # 정제를 하고 담아주세요
     preprocessed_sentence = preprocess_sentence(sentence)
+    if len(preprocessed_sentence.split()) > 15 : continue
     corpus.append(preprocessed_sentence)
 
 def tokenize(corpus):
@@ -270,18 +274,33 @@ tgt_input = tensor[:, 1:]
 print(src_input[0][:10])
 print(tgt_input[0][:10])
 
+from sklearn.model_selection import train_test_split as ttst
+enc_train, enc_val, dec_train, dec_val = ttst(src_input,
+                            tgt_input,
+                            test_size=0.2,
+                            random_state=21)
 #%%
-BUFFER_SIZE = len(src_input)
-BATCH_SIZE = 256
-steps_per_epoch = len(src_input) // BATCH_SIZE
+print("Source Train:", enc_train.shape)
+print("Target Train:", dec_train.shape)
 
+#%%
+BUFFER_SIZE = len(enc_train)
+BATCH_SIZE = 256
+steps_per_epoch = len(enc_train) // BATCH_SIZE
+val_BUFFER_SIZE = len(enc_val)
+val_BATCH_SIZE = 256
  # tokenizer가 구축한 단어사전 내 13000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
 VOCAB_SIZE = tokenizer.num_words + 1   
 
-dataset = tf.data.Dataset.from_tensor_slices((src_input, tgt_input))
+dataset = tf.data.Dataset.from_tensor_slices((enc_train, dec_train))
+val_dataset = tf.data.Dataset.from_tensor_slices((enc_val, dec_val))
+
 dataset = dataset.shuffle(BUFFER_SIZE)
 dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
 dataset
+val_dataset = dataset.shuffle(val_BUFFER_SIZE)
+val_dataset = dataset.batch(val_BATCH_SIZE, drop_remainder=True)
+val_dataset
 #%%
 
 class TextGenerator(tf.keras.Model):
@@ -303,14 +322,14 @@ class TextGenerator(tf.keras.Model):
     
 embedding_size = 256
 hidden_size = 1024
-model = TextGenerator(tokenizer.num_words + 1, embedding_size , hidden_size)
+mywriter = TextGenerator(tokenizer.num_words + 1, embedding_size , hidden_size)
 #%%
 # 데이터셋에서 데이터 한 배치만 불러오는 방법입니다.
 # 지금은 동작 원리에 너무 빠져들지 마세요~
 for src_sample, tgt_sample in dataset.take(1): break
 
 # 한 배치만 불러온 데이터를 모델에 넣어봅니다
-model(src_sample)
+mywriter(src_sample)
 #%%
 print(model)
 #%%
@@ -323,7 +342,9 @@ loss = tf.keras.losses.SparseCategoricalCrossentropy(
 )
 
 model.compile(loss=loss, optimizer=optimizer)
-model.fit(dataset, epochs=10)
+model.fit(dataset, 
+        validation=val_dataset,
+        epochs=10)
 
 #%%
 # from sklearn.model_selection import train_test_split as ttst
