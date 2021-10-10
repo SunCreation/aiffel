@@ -203,7 +203,7 @@ for txt_file in txt_list:
     with open(txt_file, "r") as f:
         raw = f.read().splitlines()
         raw_corpus.extend(raw)
-print("리스트 예시 5개:\n", txt_name_list[:5], "\n리스트 개수:", len(txt_list))
+print("노래제목 예시 5개:\n", txt_name_list[:5], "\n노래 개수:", len(txt_list))
 print("데이터 크기:", len(raw_corpus))
 print("Examples:\n", np.array(raw_corpus[:15]))
 

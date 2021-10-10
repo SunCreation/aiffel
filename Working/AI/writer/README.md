@@ -11,7 +11,7 @@ To make AI writer
   - 일단 되는데까지는 해본다. : 인공지능이 만들어주는 글의 길이 조절, 
   - 
 이번에는 글을 만드는 인공지능을 만들도록 해보자.
-
+ 
 
 
 ```python
@@ -24,7 +24,6 @@ import numpy as np
 
 ### 먼저 사용할 데이터를 확인해보겠습니다. 
 ```python
-
 txt_files = os.getenv('HOME') +'/aiffel/Working/AI/writer/data/lyrics/*'
 txt_file_path = os.getenv('HOME') +'/aiffel/Working/AI/writer/data/lyrics'
 txt_list = glob.glob(txt_files)
@@ -36,12 +35,14 @@ for txt_file in txt_list:
     with open(txt_file, "r") as f:
         raw = f.read().splitlines()
         raw_corpus.extend(raw)
-print("리스트 예시 5개:\n", txt_name_list[:5], "\n리스트 개수:", len(txt_list))
+print("노래제목 예시 5개:\n", txt_name_list[:5], "\n노래 개수:", len(txt_list))
 print("데이터 크기:", len(raw_corpus))
 print("Examples:\n", np.array(raw_corpus[:15]))
-
 ```
 ```
+노래제목 예시 5개:
+ ['dj-khaled.txt', 'disney.txt', 'bob-dylan.txt', 'joni-mitchell.txt', 'bruce-springsteen.txt'] 
+노래 개수: 49
 데이터 크기: 187088
 Examples:
  ['How does a bastard, orphan, son of a whore'
@@ -59,4 +60,28 @@ Examples:
  'Took up a collection just to send him to the mainland'
  "Get your education, don't forget from whence you came"
  'And the world is gonna know your name']
+```
+
+```python
+def preprocess_sentence(sentence):
+    sentence = sentence.lower().strip() # 1
+    sentence = re.sub(r"([?.!,¿])", r" \1 ", sentence) # 2
+    sentence = re.sub(r'[" "]+', " ", sentence) # 3
+    sentence = re.sub(r"[^a-zA-Z?.!,¿]+", " ", sentence) # 4
+    sentence = sentence.strip() # 5
+    sentence = '<start> ' + sentence + ' <end>' # 6
+    return sentence
+
+corpus = []
+```
+
+```
+[[    2   206    58 ...     0     0     0]
+ [    2    23     6 ...     0     0     0]
+ [    2   730   925 ...     0     0     0]
+ ...
+ [    2    24     6 ...     0     0     0]
+ [    2    80     4 ...     0     0     0]
+ [    2    67 10651 ...     0     0     0]] <keras_preprocessing.text.Tokenizer object at 0x7f1ba3fd3050>
+(175986, 347)
 ```
