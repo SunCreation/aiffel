@@ -190,11 +190,12 @@ import glob
 import os
 import re 
 import tensorflow as tf
+import numpy as np
 
-txt_file_path = os.getenv('HOME') +'/aiffel/Working/AI/writer/data/lyrics/*'
-
-txt_list = glob.glob(txt_file_path)
-
+txt_files = os.getenv('HOME') +'/aiffel/Working/AI/writer/data/lyrics/*'
+txt_file_path = os.getenv('HOME') +'/aiffel/Working/AI/writer/data/lyrics'
+txt_list = glob.glob(txt_files)
+txt_name_list = os.listdir(txt_file_path)
 raw_corpus = []
 
 # 여러개의 txt 파일을 모두 읽어서 raw_corpus 에 담습니다.
@@ -202,9 +203,9 @@ for txt_file in txt_list:
     with open(txt_file, "r") as f:
         raw = f.read().splitlines()
         raw_corpus.extend(raw)
-
+print("리스트 예시 5개:\n", txt_name_list[:5], "\n리스트 개수:", len(txt_list))
 print("데이터 크기:", len(raw_corpus))
-print("Examples:\n", raw_corpus[:3])
+print("Examples:\n", np.array(raw_corpus[:15]))
 
 #%%
 
@@ -222,7 +223,7 @@ corpus = []
 for sentence in raw_corpus:
     # 우리가 원하지 않는 문장은 건너뜁니다
     if len(sentence) == 0: continue
-    if sentence[-1] == ":": continue
+    # if sentence[-1] == ":": continue
     
     # 정제를 하고 담아주세요
     preprocessed_sentence = preprocess_sentence(sentence)
