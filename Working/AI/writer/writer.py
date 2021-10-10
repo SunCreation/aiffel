@@ -330,10 +330,10 @@ for src_sample, tgt_sample in dataset.take(1): break
 
 # 한 배치만 불러온 데이터를 모델에 넣어봅니다
 mywriter(src_sample)
+# #%%
+# print(mywriter)
 #%%
-print(model)
-#%%
-model.summary()
+mywriter.summary()
 #%%
 optimizer = tf.keras.optimizers.Adam()
 loss = tf.keras.losses.SparseCategoricalCrossentropy(
@@ -341,8 +341,8 @@ loss = tf.keras.losses.SparseCategoricalCrossentropy(
     reduction='none'
 )
 
-model.compile(loss=loss, optimizer=optimizer)
-model.fit(dataset, 
+mywriter.compile(loss=loss, optimizer=optimizer)
+mywriter.fit(dataset, 
         validation=val_dataset,
         epochs=10)
 
