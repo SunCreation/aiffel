@@ -250,6 +250,7 @@ def tokenize(corpus):
     print(tensor,tokenizer)
     return tensor, tokenizer
 tensor, tokenizer = tokenize(corpus)
+print(tensor[:3, :10])
 tensor.shape
 #%%
 for idx in tokenizer.index_word:
@@ -262,8 +263,8 @@ src_input = tensor[:, :-1]
 # tensor에서 <start>를 잘라내서 타겟 문장을 생성합니다.
 tgt_input = tensor[:, 1:]    
 
-print(src_input[0])
-print(tgt_input[0])
+print(src_input[0][:10])
+print(tgt_input[0][:10])
 
 #%%
 BUFFER_SIZE = len(src_input)
@@ -299,14 +300,17 @@ class TextGenerator(tf.keras.Model):
 embedding_size = 256
 hidden_size = 1024
 model = TextGenerator(tokenizer.num_words + 1, embedding_size , hidden_size)
-# %%
+#%%
+
 # 데이터셋에서 데이터 한 배치만 불러오는 방법입니다.
 # 지금은 동작 원리에 너무 빠져들지 마세요~
 for src_sample, tgt_sample in dataset.take(1): break
 
 # 한 배치만 불러온 데이터를 모델에 넣어봅니다
 model(src_sample)
-
+#%%
+print(model)
+#%%
 model.summary()
 #%%
 optimizer = tf.keras.optimizers.Adam()
@@ -317,8 +321,8 @@ loss = tf.keras.losses.SparseCategoricalCrossentropy(
 
 model.compile(loss=loss, optimizer=optimizer)
 model.fit(dataset, epochs=10)
-#%%
 
+#%%
 # from sklearn.model_selection import train_test_split as ttst
 # enc_train, enc_val, dec_train, dec_val = ttst(tensor,
 #                             tokenizer,
