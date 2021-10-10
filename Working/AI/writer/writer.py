@@ -251,6 +251,12 @@ def tokenize(corpus):
     return tensor, tokenizer
 tensor, tokenizer = tokenize(corpus)
 tensor.shape
+#%%
+for idx in tokenizer.index_word:
+    print(idx, ":", tokenizer.index_word[idx])
+
+    if idx >= 10: break
+
 
 #%%
 

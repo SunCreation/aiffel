@@ -39,6 +39,7 @@ print("노래제목 예시 5개:\n", txt_name_list[:5], "\n노래 개수:", len(
 print("데이터 크기:", len(raw_corpus))
 print("Examples:\n", np.array(raw_corpus[:15]))
 ```
+출력결과
 ```
 노래제목 예시 5개:
  ['dj-khaled.txt', 'disney.txt', 'bob-dylan.txt', 'joni-mitchell.txt', 'bruce-springsteen.txt'] 
@@ -74,7 +75,7 @@ def preprocess_sentence(sentence):
 
 corpus = []
 ```
-
+출력결과
 ```
 [[    2   206    58 ...     0     0     0]
  [    2    23     6 ...     0     0     0]
@@ -84,4 +85,23 @@ corpus = []
  [    2    80     4 ...     0     0     0]
  [    2    67 10651 ...     0     0     0]] <keras_preprocessing.text.Tokenizer object at 0x7f1ba3fd3050>
 (175986, 347)
+```
+```python
+for idx in tokenizer.index_word:
+    print(idx, ":", tokenizer.index_word[idx])
+
+    if idx >= 10: break
+```
+출력결과
+```
+1 : <unk>
+2 : <start>
+3 : <end>
+4 : ,
+5 : i
+6 : the
+7 : you
+8 : and
+9 : a
+10 : to
 ```
