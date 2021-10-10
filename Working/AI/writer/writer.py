@@ -322,7 +322,7 @@ class TextGenerator(tf.keras.Model):
     
 embedding_size = 256
 hidden_size = 1024
-mywriter = TextGenerator(tokenizer.num_words + 1, embedding_size , hidden_size)
+mywriter = TextGenerator(VOCAB_SIZE, embedding_size , hidden_size)
 #%%
 # 데이터셋에서 데이터 한 배치만 불러오는 방법입니다.
 # 지금은 동작 원리에 너무 빠져들지 마세요~
