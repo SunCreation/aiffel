@@ -477,4 +477,4 @@ def generate_text(model, tokenizer, init_sentence="<start>", max_len=20):
 
     return generated
 # %%
-generate_text(model, tokenizer, init_sentence="<start> man")
+generate_text(mywriter, tokenizer, init_sentence="<start> man")
