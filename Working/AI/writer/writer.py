@@ -213,7 +213,7 @@ print("노래제목 예시 5개:\n", txt_name_list[:5], "\n노래 개수:", len(
 print("데이터 크기:", len(raw_corpus))
 print("Examples:\n", np.array(raw_corpus[:15]))
 
-#%%
+
 
 def preprocess_sentence(sentence):
     sentence = sentence.lower().strip() # 1
@@ -279,16 +279,15 @@ enc_train, enc_val, dec_train, dec_val = ttst(src_input,
                             tgt_input,
                             test_size=0.2,
                             random_state=21)
-#%%
+
 print("Source Train:", enc_train.shape)
 print("Target Train:", dec_train.shape)
 
 #%%
 BUFFER_SIZE = len(enc_train)
-BATCH_SIZE = 256
+BATCH_SIZE = 512
 steps_per_epoch = len(enc_train) // BATCH_SIZE
 val_BUFFER_SIZE = len(enc_val)
-val_BATCH_SIZE = 256
  # tokenizer가 구축한 단어사전 내 13000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
 VOCAB_SIZE = tokenizer.num_words + 1   
 
@@ -298,8 +297,8 @@ val_dataset = tf.data.Dataset.from_tensor_slices((enc_val, dec_val))
 dataset = dataset.shuffle(BUFFER_SIZE)
 dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
 dataset
-val_dataset = dataset.shuffle(val_BUFFER_SIZE)
-val_dataset = dataset.batch(val_BATCH_SIZE, drop_remainder=True)
+val_dataset = val_dataset.shuffle(val_BUFFER_SIZE)
+val_dataset = val_dataset.batch(BATCH_SIZE, drop_remainder=True)
 val_dataset
 #%%
 
@@ -320,19 +319,19 @@ class TextGenerator(tf.keras.Model):
         
         return out
     
-embedding_size = 256
-hidden_size = 1024
+embedding_size = 512
+hidden_size = 2048
 mywriter = TextGenerator(VOCAB_SIZE, embedding_size , hidden_size)
-#%%
+
 # 데이터셋에서 데이터 한 배치만 불러오는 방법입니다.
 # 지금은 동작 원리에 너무 빠져들지 마세요~
 for src_sample, tgt_sample in dataset.take(1): break
 
 # 한 배치만 불러온 데이터를 모델에 넣어봅니다
-mywriter(src_sample)
+print(mywriter(src_sample))
 # #%%
 # print(mywriter)
-#%%
+
 mywriter.summary()
 #%%
 optimizer = tf.keras.optimizers.Adam()
