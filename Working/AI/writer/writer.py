@@ -224,7 +224,7 @@ def preprocess_sentence(sentence):
     sentence = '<start> ' + sentence + ' <end>' # 6
     
     return sentence
-#%%
+
 corpus = []
 
 for sentence in raw_corpus:
