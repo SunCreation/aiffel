@@ -1,3 +1,4 @@
+#%%
 import glob
 import os
 import re
@@ -93,7 +94,7 @@ print("Target Train:", dec_train.shape)
 
 #%%
 BUFFER_SIZE = len(enc_train)
-BATCH_SIZE = 512
+BATCH_SIZE = 256
 steps_per_epoch = len(enc_train) // BATCH_SIZE
 val_BUFFER_SIZE = len(enc_val)
  # tokenizer가 구축한 단어사전 내 13000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개

@@ -196,6 +196,7 @@ import re
 from sklearn.utils import validation 
 import tensorflow as tf
 import numpy as np
+from tensorflow.python.ops.nn_ops import dropout
 
 txt_files = os.getenv('HOME') +'/aiffel/Working/AI/writer/data/lyrics/*'
 txt_file_path = os.getenv('HOME') +'/aiffel/Working/AI/writer/data/lyrics'
@@ -288,7 +289,7 @@ BUFFER_SIZE = len(enc_train)
 BATCH_SIZE = 512
 steps_per_epoch = len(enc_train) // BATCH_SIZE
 val_BUFFER_SIZE = len(enc_val)
- # tokenizer가 구축한 단어사전 내 13000개와, 여기 포함되지 않은 0:<pad>를 포함하여 7001개
+ # tokenizer가 구축한 단어사전 내 13000개와, 여기 포함되지 않은 0:<pad>를 포함하여 13001개
 VOCAB_SIZE = tokenizer.num_words + 1   
 
 dataset = tf.data.Dataset.from_tensor_slices((enc_train, dec_train))
@@ -307,8 +308,8 @@ class TextGenerator(tf.keras.Model):
         super().__init__()
         
         self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_size)
-        self.rnn_1 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
-        self.rnn_2 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
+        self.rnn_1 = tf.keras.layers.LSTM(hidden_size, return_sequences=True,dropout=0.05)
+        self.rnn_2 = tf.keras.layers.LSTM(hidden_size, return_sequences=True,dropout=0.05)
         self.linear = tf.keras.layers.Dense(vocab_size)
         
     def call(self, x):
@@ -476,4 +477,4 @@ def generate_text(model, tokenizer, init_sentence="<start>", max_len=20):
 
     return generated
 # %%
-generate_text(mywriter, tokenizer, init_sentence="<start> man")
+generate_text(mywriter, tokenizer, init_sentence="<start> beautiful")
