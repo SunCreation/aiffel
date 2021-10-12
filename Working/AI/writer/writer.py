@@ -286,7 +286,7 @@ print("Target Train:", dec_train.shape)
 
 #%%
 BUFFER_SIZE = len(enc_train)
-BATCH_SIZE = 512
+BATCH_SIZE = 256
 steps_per_epoch = len(enc_train) // BATCH_SIZE
 val_BUFFER_SIZE = len(enc_val)
  # tokenizer가 구축한 단어사전 내 13000개와, 여기 포함되지 않은 0:<pad>를 포함하여 13001개
@@ -308,8 +308,8 @@ class TextGenerator(tf.keras.Model):
         super().__init__()
         
         self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_size)
-        self.rnn_1 = tf.keras.layers.LSTM(hidden_size, return_sequences=True,dropout=0.05)
-        self.rnn_2 = tf.keras.layers.LSTM(hidden_size, return_sequences=True,dropout=0.05)
+        self.rnn_1 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
+        self.rnn_2 = tf.keras.layers.LSTM(hidden_size, return_sequences=True)
         self.linear = tf.keras.layers.Dense(vocab_size)
         
     def call(self, x):
@@ -320,7 +320,7 @@ class TextGenerator(tf.keras.Model):
         
         return out
     
-embedding_size = 512
+embedding_size = 1400
 hidden_size = 2048
 mywriter = TextGenerator(VOCAB_SIZE, embedding_size , hidden_size)
 
@@ -344,7 +344,7 @@ loss = tf.keras.losses.SparseCategoricalCrossentropy(
 mywriter.compile(loss=loss, optimizer=optimizer)
 mywriter.fit(dataset, 
         validation_data=val_dataset,
-        epochs=10)
+        epochs=8)
 
 #%%
 # from sklearn.model_selection import train_test_split as ttst
