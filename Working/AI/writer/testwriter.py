@@ -139,8 +139,8 @@ for src_sample, tgt_sample in dataset.take(1): break
 # 한 배치만 불러온 데이터를 모델에 넣어봅니다
 print(mywriter(src_sample))
 # #%%
-# print(mywriter)
-
+print(mywriter)
+# test11
 mywriter.summary()
 #%%
 optimizer = tf.keras.optimizers.Adam()
@@ -194,8 +194,8 @@ loaded_model = tf.keras.models.load_model('/root/aiffel/Working/AI/writer/mylyri
 
 #%%
 
-test_word = ['man', 'i love', 'is it','it' ,'it was', 'how', 'how nice', 'how to kill', 'safety', 'beautiful','lielfsdf']
+test_word = ['madfn', 'i ldfhove', 'is sdfit','itsfee' ,'it was', 'how', 'how nice', 'how to kill', 'safety', 'beautiful','lielfsdf']
 result_dict = {}
 for word in test_word:
-    result = generate_text(loaded_model, tokenizer, init_sentence= ' '.join(["<start>", word]))
+    result = generate_text(mywriter, tokenizer, init_sentence= ' '.join(["<start>", word]))
     print("- ",word,': ', ' '*(12-len(word)), result, sep= "")
