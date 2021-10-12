@@ -4,7 +4,7 @@ To make AI writer
 > ---
 > ### 1. 실행 방법   
 > ### 2. 목표 및 의의   
-> ### 3. 이론 [go]()
+> ### 3. 이론 [go](#3-이론)
 >   > 1 RNN과 LSTM
 >   > 2 
 > ### 4. 코드 분석 [go](#4-코드-분석)
@@ -19,6 +19,7 @@ To make AI writer
   1. 왠만한 그래픽카드로도 학습시간이 한,두시간 걸리는 것 같으니, 해보길 크게 권하지 않습니다. 그래도 꼭 하고싶으면 해보세요!
   2. aiffel repository를 다운받습니다. ``` git clone https://github.com/SunCreation/aiffel.git```
   3. writer.py를 실행해줍니다. ```python3 {aiffel까지 경로}/aiffel/Working/AI/writer/writer.py``` {aiffel까지 경로} 추가 입력, 학습이 시작됩니다.(라이브러리 tensorflow, matplotlib, sklearn 가 필요합니다.)
+  4. 학습결과는 아래내용 그 이상이 없으므로, 굳이 해보실 필요 없습니다.
   
 ---
 # 2. 목표 및 의의
@@ -34,6 +35,8 @@ To make AI writer
 [목차](#to-make-ai-writer)
 ## 1) RNN과 LSTM
 ---
+#### RNN(Recurrent Neural Networks)은 인공 신경망 학습모델의 일종으로, 
+
 
 ---
 # 4. 코드 분석
@@ -238,6 +241,7 @@ val_dataset
 ## 2) 모델 설계
 ---
 #### 이제 준비가 많이 되었군요. 학습을 할 모델을 만들어보겠습니다!
+#### 오늘 인공지능이 해줬으면 좋겠는 일은 언어에 대한 학습입니다. 우리의 모델은 특정 단어를 특정 숫자로 인지할 수 밖에 없습니다. 이를 위해 단어들을 숫자와 해주는 작업을 이미 마쳤습니다. 이제 모델은 그 숫자에 특정 수치들을 매겨, 기억할 것입니다. 
 ```python
 class TextGenerator(tf.keras.Model):
     def __init__(self, vocab_size, embedding_size, hidden_size):
