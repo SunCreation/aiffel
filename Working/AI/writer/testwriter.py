@@ -128,7 +128,7 @@ class TextGenerator(tf.keras.Model):
         
         return out
     
-embedding_size = 512
+embedding_size = 1024
 hidden_size = 2048
 mywriter = TextGenerator(VOCAB_SIZE, embedding_size , hidden_size)
 
@@ -186,3 +186,16 @@ def generate_text(model, tokenizer, init_sentence="<start>", max_len=20):
     return generated
 # %%
 generate_text(mywriter, tokenizer, init_sentence="<start> man")
+
+
+#%%
+import tensorflow as tf
+loaded_model = tf.keras.models.load_model('/root/aiffel/Working/AI/writer/mylyricist')
+
+#%%
+
+test_word = ['man', 'i love', 'is it','it' ,'it was', 'how', 'how nice', 'how to kill', 'safety', 'beautiful','lielfsdf']
+result_dict = {}
+for word in test_word:
+    result = generate_text(loaded_model, tokenizer, init_sentence= ' '.join(["<start>", word]))
+    print("- ",word,': ', ' '*(12-len(word)), result, sep= "")

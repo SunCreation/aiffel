@@ -484,4 +484,17 @@ test_word = ['man', 'i love', 'is it','it' ,'it was', 'how', 'how nice', 'how to
 result_dict = {}
 for word in test_word:
     result = generate_text(mywriter, tokenizer, init_sentence= ' '.join(["<start>", word]))
-    print("- ",word,': ', ' '*(13-len(word)), result, sep= "")
+    print("- ",word,': ', ' '*(12-len(word)), result, sep= "")
+#%%
+
+mywriter.save("/root/aiffel/Working/AI/writer/mylyricist")
+
+
+#%%
+for word in test_word:
+    result = generate_text(loaded_model, tokenizer, init_sentence= ' '.join(["<start>", word]))
+    print("- ",word,': ', ' '*(12-len(word)), result, sep= "")
+
+
+#%%
+
