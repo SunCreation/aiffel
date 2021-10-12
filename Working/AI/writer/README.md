@@ -35,8 +35,15 @@ To make AI writer
 [목차](#to-make-ai-writer)
 ## 1) RNN과 LSTM
 ---
-#### RNN(Recurrent Neural Networks)은 인공 신경망 학습모델의 일종으로, 
+#### RNN(Recurrent Neural Networks)은 인공 신경망 학습모델의 일종으로, hidden_node가 방향을 가지고 연결돼 순환구조를 이루는(directed cycle) 형태를 가지고 있습니다. 이 역시 실제 뇌의 신경에서 본따온 학습형태라고 합니다.
 
+![이미지](https://i.imgur.com/Q8zv6TQ.png)
+
+#### 위의 그림에서도 알 수 있듯 시퀀스 길이에 관계없이 인풋과 아웃풋을 받아들일 수 있는 네트워크 구조이기 때문에 필요에 따라 다양하고 유연하게 구조를 만들 수 있다는 점이 RNN의 가장 큰 장점입니다.
+#### 하지만 vanishing gradient problem라고 하는 문제가 존재합니다. 바로 학습데이터와 연관된 타겟데이터가 멀리있을 때, 학습률이 떨어지는 현상인데, RNN을 사용할 경우에는 이런 일이 많기때문에, 이는 큰 문제중에 하나라고 할 수 있습니다.
+
+#### 이어서 LSTM은 다음과 같은데, 바로 vanishing gradient problem을 해결 할 방법이라고 할 수 있겠습니다. 세부 적인 내용은 차차 알아가 보겠습니다!
+![이미지](https://i.imgur.com/jKodJ1u.png)
 
 ---
 # 4. 코드 분석
