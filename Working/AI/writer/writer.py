@@ -332,7 +332,7 @@ for src_sample, tgt_sample in dataset.take(1): break
 print(mywriter(src_sample))
 # #%%
 # print(mywriter)
-
+# test 12
 mywriter.summary()
 #%%
 optimizer = tf.keras.optimizers.Adam()
@@ -478,3 +478,10 @@ def generate_text(model, tokenizer, init_sentence="<start>", max_len=20):
     return generated
 # %%
 generate_text(mywriter, tokenizer, init_sentence="<start> beautiful")
+
+
+test_word = ['man', 'i love', 'is it','it' ,'it was', 'how', 'how nice', 'how to kill', 'safety', 'beautiful','lielfsdf']
+result_dict = {}
+for word in test_word:
+    result = generate_text(mywriter, tokenizer, init_sentence= ' '.join(["<start>", word]))
+    print("- ",word,': ', ' '*(13-len(word)), result, sep= "")
