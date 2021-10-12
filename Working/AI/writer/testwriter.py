@@ -152,7 +152,7 @@ loss = tf.keras.losses.SparseCategoricalCrossentropy(
 mywriter.compile(loss=loss, optimizer=optimizer)
 mywriter.fit(dataset, 
         validation_data=val_dataset,
-        epochs=10)
+        epochs=8)
 
 #%%
 
