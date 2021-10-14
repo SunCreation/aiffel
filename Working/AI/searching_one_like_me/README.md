@@ -51,7 +51,7 @@ embedding은 원래 있던 공간과 다른 위상을 같는 공간으로 대상
 
 위 논문을 차근차근 읽어나가는 것도 추천드립니다. 하지만, 다음 명령어로 python에서 해당 기능을 사용할 수 있습니다.   
 
-  ```pip install face_recognition```   
+  [```pip install face_recognition```](https://github.com/ageitgey/face_recognition)   (누르시면 라이브러리 설명페이지로 넘어갑니다.)
 
 위 라이브러리는 기본적으로 dlib기능을 사용하여, 사진에서 얼굴을 찾아내어 인식한 후에, 해당 사진을 적절한 정규화, 조직화를 거쳐 embedding까지 해줍니다.
 
@@ -92,11 +92,17 @@ embedding은 원래 있던 공간과 다른 위상을 같는 공간으로 대상
 ####
 ```python
 import os
+import numpy as np
+import face_recognition
+import matplotlib.pyplot as plt
+import matplotlib.image as img
 
 dir_path = os.getenv('HOME')+'/Working/AI/face_embedding/images'
 test_dir_path = os.getenv('HOME')+'/Working/AI/face_embedding/test'
 file_list = os.listdir(dir_path)
+# 연예인 사진파일의 이름이 저장된 리스트입니다!(제 사진이 두개 있지만..)
 test_list = os.listdir(test_dir_path)
+# 연예인 사진과 비교하고 싶은 사진들 이에요.ㅎㅎ
 
 print ("file_list: {}".format(file_list))
 ```
@@ -115,14 +121,15 @@ print(len(file_list))
 ```
 2094
 
-많은 동기들과 선배님들 덕에, 사진자료를 어렵지 않게 구할 수 있었습니다.ㅜㅜ 아니면, 일일이 사진을 다운받고 사진파일 이름을 수정해야할 뻔 했어요.
+많은 동기들과 선배님들 덕에, 사진자료를 어렵지 않게 구할 수 있었습니다.ㅜㅜ 아니면, 일일이 사진을 다운받고 사진파일 이름을 수정해야할 뻔 했어요.   
 
+사진들이 어떻게 준비되었나 일부만 출력해봅시다!
 
 
 ```python
 import matplotlib.pyplot as plt
 import matplotlib.image as img
-
+# 위에 호출했던 라이브러리
 #Set figsize here
 fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(10,10))
 
@@ -130,8 +137,188 @@ fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(10,10))
 for i, ax in enumerate(axes.flatten()):
     image = img.imread(dir_path+'/'+file_list[i])
     ax.imshow(image)
+fig.tight_layout()
 plt.show()
 ```
+![이미지](data/myeyes.png)   
+
+참... 그래도 연예인들이라서 그런지 눈이 편안한 느낌이 드네요;;
+
+
+이제 face_recognition을 이용해서 얼굴사진만 추출하도록 합니다. 물론 인공지능을 훈련시켜서 사진 전체를 보고 닮은 사진을 얻을 수 있을 것입니다. 하지만 이는 바람직하지 않습니다. 얼굴을 인식하고 그 부분만 잘라서 정규화 한다면, 훨신 효율적으로 학습하고, 좋은 성능을 보일 수 있을 것입니다. 따라서 얼굴 사진을 찾는 법을 실습해보겠습니다.    
+
+```python
+# import face_recognition
+# 위에 호출했던 라이브러리
+image_path = dir_path+ '/obama.jpg'
+image = face_recognition.load_image_file(image_path)
+face_locations = face_recognition.face_locations(image)
+
+print(face_locations)  # 이미지에서 얼굴 영역의 좌표를 출력합니다.
+
+a, b, c, d = face_locations[0]
+cropped_face = image[a:c,d:b,:]
+
+plt.imshow(cropped_face)   # 이미지에서 얼굴영역만 잘라낸 cropped_face를 그려 봅니다.
+plt.show()
+```
+![image](data/obama.png)   
+
+오바마 전 대통령의 사진이  얼굴만 잘 나왔네요.
+
+
+이제 이 기능을 사용해서 얼굴사진만 뽑아주는 함수를 정의하겠습니다.
+
+```python
+def get_cropped_face(image_file):
+    # [[YOUR CODE]]
+    image = face_recognition.load_image_file(image_file)
+    face_locations = face_recognition.face_locations(image)
+    cropped_face =None
+    if len(face_locations) != 0:
+        a, b, c, d = face_locations[0]
+        cropped_face = image[a:c,d:b,:]
+    return cropped_face
+
+# image_file = os.path.join(dir_path, '김영재.jpg')
+# face = get_cropped_face(image_file)   # 얼굴 영역을 구하는 함수(이전 스텝에서 구현)
+# plt.imshow(face)
+# plt.show()
+
+```
+이번 프로젝트는 만들어진 임베딩벡터 추출함수로 원하는 기능을 구현해내는 내용이 많습니다. 때문에 함수가 많이 쓰여야 하고, 중요합니다!!
+
+다음으로는 바로 그 embedding vector를 구해주는 함수입니다.
+
+```python
+
+# 얼굴 영역을 가지고 얼굴 임베딩 벡터를 구하는 함수
+def get_face_embedding(face):
+    return face_recognition.face_encodings(face)
+
+```
+
+다음으로는 경로를 받아서 경로 안의 모든 사진을 한번에 넣어주고, 이를 사람 이름과 그 얼굴의 embedding vector의 딕셔너리로 반환해주는 함수를 만들겠습니다... 복잡하네요. 위의 함수들로 이것이 조금 단순화 됩니다.
+
+```python
+# '김영재.jpg', '곽민석.jpg', '한가림.jpg', '김꽃비.jpg', '박상조.jpg', '박하나.jpg', '류원정.jpg'
+# 이 초록 글씨들은 매우 많은 오류가 발생했었음을 알려줍니다ㅜㅜ
+# embedding = get_face_embedding(face)  
+# print(len(embedding))
+# print(embedding)
+
+def get_face_embedding_dict(dir_path):
+    file_list = os.listdir(dir_path)
+    embedding_dict = {}
+    
+    for file in file_list:
+        filename= ".".join(file.split('.')[:-1]) # os.path.splitext(file)[0]
+        image_file = os.path.join(dir_path, file)
+        face=get_cropped_face(image_file)
+        if face is None : continue
+        
+        try:
+            embedding_dict[filename]=get_face_embedding(face)[0]
+        except:
+            pass
+
+        
+    return embedding_dict
+# embedding_dict={}
+
+embedding_dict = get_face_embedding_dict(dir_path)
+
+test_dict = get_face_embedding_dict(test_dir_path)
+test_dict.keys()
+#%%
+who = [i for i,j in embedding_dict.items()]
+
+print ("비교대상들..!!: {}".format(who))
+
+```
+위와같이 사진의 비교대상이 되는 연예인 명단이 나올 수 있습니다. 하지만 명단이 너무 많아서 의미가 없네요! 다만 다시 출력한 이유는 처음 명단과 달려진 것을 확인하기 위해서 입니다. 
+
+```python
+len(embedding_dict)
+
+```
+1581
+
+사진이 500장 가까이 사라졌습니다..! 사실 이 사진들에서 오류가 나와서 너무 힘이 들었습니다. 오류가 발생하는 지점부터가 어려웠는데, 계속 찾다보니, embedding vector를 만들어주는 함수가 얼굴을 입력받아도 출력을 안주는 경우가 있다는 것을 알게되었습니다. 따라서 오류가 발생할 시 try, except문으로 넘어가도록 만들어주었습니다.
+
+
+
+```python
+# import sys
+# # # 파일 생성 및 출력자료로 쓰기
+# # sys.stdout = open('my_model','w') # 이어쓰기는 'a'
+
+# # print(embedding_dict)
+# #%%
+
+# sys.stdout = open('result.txt','w')
+# print('hi')
+#%%
+
+# print("슝=3")
+
+
+
+
+def get_distance(test, name):
+    return np.linalg.norm(test_dict[test]-embedding_dict[name], ord=2)
+
+# get_distance('obama', 'trump')
+
+
+# name1과 name2의 거리를 비교하는 함수를 생성하되, name1은 미리 지정하고, name2는 호출시에 인자로 받도록 합니다.
+def get_sort_key_func(name1):
+    def get_distance_from_name1(name2):
+        return get_distance(name1, name2)
+    return get_distance_from_name1
+
+
+def get_nearest_face(name, top=5):
+    sort_key_func=get_sort_key_func(name)
+    nearlist = [i for i, j in sorted(embedding_dict.items(), key=lambda x:sort_key_func(x[0]))[:top]]
+    print("비슷한 연예인 순위 발표!!")
+    n = 1
+    for i in nearlist:
+        #if n !=0:
+        
+        for x in file_list:
+            if i in x:
+                ax = plt.subplot(1, top, n)
+                ax.set_xticks([])
+                ax.set_yticks([])
+                plt.imshow(get_cropped_face('images/'+x))
+                
+        
+        print(str(n) + "위 :", i + ',', "- 얼굴 거리:",sort_key_func(i))
+        n +=1
+    plt.show()
+    print(nearlist[0],"를(을) 가장 닮으셨군요?")
+    plt.subplot(121)
+    plt.title("it's me")
+    for x in test_list:
+        if name in x:
+            plt.imshow(get_cropped_face('test/'+x))
+        
+    plt.subplot(122)
+    a = nearlist[0]
+    plt.title(a) # 아직 한글 안됨
+    for x in file_list:
+        if nearlist[0] in x:
+            plt.imshow(get_cropped_face('images/'+x))
+    plt.show()
+    return nearlist
+
+
+get_nearest_face('itsme2')
+
+```
+![image](data/i_looklike_me.png)
+
 
 
 [목차](#searching-a-celebrity-looks-like-me)
@@ -161,3 +348,6 @@ plt.show()
 
 
 # 5. 아쉬운 점
+
+### 1. 먼저 시간안에 시각화를 만족스럽게 해주지 못해서 아쉬웠습니다.
+### 하지만, 모델의 동작이 매우 자연스럽고 표정의 변화만으로도 거리의 차이가 생기는 점은 인상깊었습니다.
