@@ -15,13 +15,15 @@
 >   > [3 모델 평가](#3-모델-평가)   
 > ### 5. 아쉬운 점 [go](#5-아쉬운-점)
 
-
+----
 # 1. 실행 방법
  1. 필요 라이브러리: matplotlib, face_recognition, numpy
  2. git clone https://github.com/SunCreation/aiffel.git 으로 repository를 가져온다.
  3. 원하는 (본인)사진을 aiffel/Working/AI/searching_one_like_me/test 폴더에 넣는다.
  4. aiffel/Working/AI/searching_one_like_me 폴더에서 searching_celebrity.py 파일을 실행한다. ```python3 searching_celebrity.py```
- 5. aiffel 폴더의 위치를 입력한다.
+ 5. aiffel 폴더의 위치를 입력한다.    
+
+-----
 # 2. 목표 및 의의
  1. 나와 닮은 사진 연예인을 찾을 수 있다.
  2. 원하는 사진과 닮은 연예인 사진을 찾는 프로그램을 만든다.(조건: 프로그램이 연예인 사진을 모두 들고 있으면 곤란하지 않을까..?)
@@ -29,6 +31,8 @@
  4. triplet loss손실함수에 대해 이해해본다.   
  5. embedding 벡터에 대해 직관할 수 있는 시각화를 시도해본다.
     
+
+-----
 # 3. 이론
 [목차](#searching-a-celebrity-looks-like-me)
 ## 1) embedding이란?
