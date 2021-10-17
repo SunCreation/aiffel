@@ -22,4 +22,8 @@ AIFFEL PROJECT LIST!
 
  ----
  4. [```To make AI writer```](https://github.com/SunCreation/aiffel/tree/main/Working/AI/writer)   
- It's amaizing!
+ It's amaizing! If you want, you can make it create sentence with a starting word.
+
+ ----
+ 5. [```Searching a celebrity looks like me!```](https://github.com/SunCreation/aiffel/tree/main/Working/AI/searching_one_like_me)   
+ You can find a celebrity looking like you. lol
