@@ -27,3 +27,7 @@ AIFFEL PROJECT LIST!
  ----
  5. [```Searching a celebrity looks like me!```](https://github.com/SunCreation/aiffel/tree/main/Working/AI/searching_one_like_me)   
  You can find a celebrity looking like you. lol
+
+ ----
+ 6. [my first kaggle](https://github.com/SunCreation/aiffel/tree/main/Working/kaggle/kaggle_kakr_housing) 
+ 
