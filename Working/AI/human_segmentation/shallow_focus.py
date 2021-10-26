@@ -220,3 +220,5 @@ plt.show()
 cv2.imwrite('output/'+only_imagename+'.png',img_concat)
 
 # %%
+import os
+os.getcwd()
