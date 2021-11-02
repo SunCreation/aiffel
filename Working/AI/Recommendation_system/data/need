@@ -1,0 +1,4 @@
+tar -zxf lastfm-dataset-360K.tar.gz
+
+
+ln -s /mnt/d/hchang/Work/aiffel/data/recomendation/lastfm-dataset-360K .
