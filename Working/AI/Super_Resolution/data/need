@@ -1,0 +1,8 @@
+$ python
+
+>> import tensorflow_datasets as tfds 
+>> tfds.load("div2k/bicubic_x4")
+
+
+pip install opencv-python
+pip install scikit-image
