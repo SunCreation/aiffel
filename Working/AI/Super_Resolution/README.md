@@ -28,6 +28,7 @@ Super Resolution & GAN
 
 - - - - 
 # 2. 이론
+[목차](#super-resolution--gan)
 
 ## 1) Interpolation 
 ### 저해상도 이미지를 고해상도 이미지로 바꾸고 싶으며 어떻게 해야할까요? 한번 예를 들어보겠습니다. 30x40 사이즈의 이미지가 있습니다. 이 이미지를 300x400사이즈의 이미지로 업그레이드 하고 싶으면 어떻게 해야할까요? 일단 30x40사이즈 이미지의 픽셀과 픽셀 사이에 상하 좌우가 10배가 되도록 픽셀을 채워넣어야 할 것입니다. 그렇다면, 픽셀을 채워넣어서 어떠한 값을 할당해 주어야 할텐데, 어떤 값을 넣어주면 될까요? 이와같은 고민을 해결해주는 것으로 Interpolation(보간법)이라는 기술이 있습니다. Bilinear Interpolation(2차원 선형보간법), Bicubic Interpolation(2차원 삼차보간법), 등 다양한 보간법이 있으며, 각기 다른 방법으로 새로 추가한 픽셀들의 값을 결정해주게 됩니다.
@@ -72,6 +73,6 @@ Super Resolution & GAN
 # 3. [코드 분석](https://nbviewer.org/github/SunCreation/aiffel/blob/main/Working/AI/Super_Resolution/%5BEX-16%5D.ipynb#super-resolution-gan) __클릭!__
 
 
-[목차](#-super-resolution-gan)
+[목차](#super-resolution--gan)
 - - - -
 
