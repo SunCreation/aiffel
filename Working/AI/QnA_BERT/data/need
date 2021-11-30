@@ -1,0 +1,11 @@
+sudo apt update -qq
+sudo apt install fonts-nanum* -qq
+
+tensorflow_addons
+sentencepiece
+wordcloud
+ipywidgets --user
+tqdm
+pydot
+pydotplus
+graphviz
