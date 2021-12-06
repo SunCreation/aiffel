@@ -1,0 +1,5 @@
+$ sudo apt install tesseract-ocr
+$ sudo apt install libtesseract-dev
+$ pip install keras-ocr
+https://kimchangheon.tistory.com/166
+-> google Cloud Vision API
