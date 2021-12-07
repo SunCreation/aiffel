@@ -1,0 +1,12 @@
+gan
+
+$ mkdir -p ~/aiffel/conditional_generation/gan
+$ wget https://aiffelstaticprd.blob.core.windows.net/media/documents/GAN_500.zip
+$ mv GAN_500.zip ~/aiffel/conditional_generation/gan
+$ cd ~/aiffel/conditional_generation/gan && unzip GAN_500.zip
+
+cgan
+$ mkdir -p ~/aiffel/conditional_generation/cgan
+$ wget https://aiffelstaticprd.blob.core.windows.net/media/documents/CGAN_500.zip
+$ mv CGAN_500.zip ~/aiffel/conditional_generation/cgan
+$ cd ~/aiffel/conditional_generation/cgan && unzip CGAN_500.zip
