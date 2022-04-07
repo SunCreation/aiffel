@@ -4,14 +4,14 @@ from sklearn.datasets import load_iris
 iris = load_iris()
 #print(iris)
 print(iris.__dir__())
-iris.keys()
+print(iris.keys())
 iris.data.shape 
 
 # key 하나씩 쳐보기
 
 #%%
 import pandas as pd
-pd.__version__
+print(pd.__version__)
 iris_df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
 iris_df
 # %%
