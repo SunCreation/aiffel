@@ -304,7 +304,7 @@ print('최소값:',np.min(x_train_norm), ' 최대값:',np.max(x_train_norm))
 #%%
 
 def model_setting(mdl,a,b,c,d):
-    #mdl=keras.models.Sequential()
+    #mdl=keras.models.Sequential() # np.ndarray().shape -> (2,3,4)
     #mdl.add(keras.layers.Conv2D(t, (3,3), activation='relu', input_shape=(28,28,3)))
     #mdl.add(keras.layers.MaxPool2D(2,2))
     mdl.add(keras.layers.Conv2D(a, (3,3), activation='elu', input_shape=(28,28,3)))
