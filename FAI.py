@@ -323,7 +323,7 @@ def model_setting(mdl,a,b,c,d):
 
 model=keras.models.Sequential()
 #model_setting(model,60, 180,540,72,3)
-model_setting(model,120,540,72,3)
+model_setting(model,60,210,72,3)
 
 x_train_reshaped=x_train_norm.reshape( -1, 28, 28, 3)  # 데이터갯수에 -1을 쓰면 reshape시 자동계산됩니다.
 x_train_gen1_reshaped = x_train_gen1_norm.reshape(-1,28,28,3)
