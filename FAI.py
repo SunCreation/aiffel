@@ -316,7 +316,7 @@ def model_setting(mdl,a,b,c,d):
     mdl.add(keras.layers.Dense(d, activation='softmax')) # 소프트맥스
 
     print('Model에 추가된 Layer 개수: ', len(mdl.layers))
-
+ 
     mdl.summary()
     print("Before Reshape - x_train_norm shape: {}".format(x_train_norm.shape))
     return mdl
