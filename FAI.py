@@ -318,19 +318,19 @@ def model_setting(mdl,a,b,c,d):
     print('Model에 추가된 Layer 개수: ', len(mdl.layers))
  
     mdl.summary()
-    print("Before Reshape - x_train_norm shape: {}".format(x_train_norm.shape))
     return mdl
 
 model=keras.models.Sequential()
 #model_setting(model,60, 180,540,72,3)
 model_setting(model,60,210,72,3)
 
-x_train_reshaped=x_train_norm.reshape( -1, 28, 28, 3)  # 데이터갯수에 -1을 쓰면 reshape시 자동계산됩니다.
-x_train_gen1_reshaped = x_train_gen1_norm.reshape(-1,28,28,3)
-x_train_gen2_reshaped = x_train_gen2_norm.reshape(-1,28,28,3)
-x_train_gen3_reshaped = x_train_gen3_norm.reshape(-1,28,28,3)
-x_train_gen4_reshaped = x_train_gen4_norm.reshape(-1,28,28,3)
-x_train_gen5_reshaped = x_train_gen5_norm.reshape(-1,28,28,3)
+print("Before Reshape - x_train_norm shape: {}".format(x_train_norm.shape))
+x_train_reshaped=x_train_norm #.reshape( -1, 28, 28, 3)  # 데이터갯수에 -1을 쓰면 reshape시 자동계산됩니다.
+x_train_gen1_reshaped = x_train_gen1_norm #.reshape(-1,28,28,3)
+x_train_gen2_reshaped = x_train_gen2_norm #.reshape(-1,28,28,3)
+x_train_gen3_reshaped = x_train_gen3_norm #.reshape(-1,28,28,3)
+x_train_gen4_reshaped = x_train_gen4_norm #.reshape(-1,28,28,3)
+x_train_gen5_reshaped = x_train_gen5_norm #.reshape(-1,28,28,3)
 
 print("After Reshape - x_train_reshaped shape: {}".format(x_train_reshaped.shape))
 print("After Reshape - x_train_gen_reshaped shape: {}".format(x_train_gen1_reshaped.shape))
