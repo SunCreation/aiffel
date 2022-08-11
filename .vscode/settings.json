@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/home/hchang/Working/bin/python3",
-    "jupyter.jupyterServerType": "remote"
+    "python.pythonPath": "/home/hchang/myspace/env/bin/python3",
+    "jupyter.jupyterServerType": "local"
 }
